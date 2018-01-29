@@ -218,6 +218,7 @@ class Pix2PixHDModel(BaseModel):
         for i in range(self.opt.label_nc):
             feature[i] = np.zeros((0, feat_num+1))
         for i in np.unique(inst_np):
+            i = int(i)
             label = i if i < 1000 else i//1000
             idx = (inst == i).nonzero()
             num = idx.size()[0]

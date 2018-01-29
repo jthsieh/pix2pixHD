@@ -283,6 +283,7 @@ class Encoder(nn.Module):
         outputs_mean = outputs.clone()        
         inst_list = np.unique(inst.cpu().numpy().astype(int))        
         for i in inst_list:
+            i = int(i)
             indices = (inst == i).nonzero() # n x 4            
             for j in range(self.output_nc):
                 output_ins = outputs[indices[:,0], indices[:,1] + j, indices[:,2], indices[:,3]]                    
