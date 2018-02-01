@@ -33,6 +33,7 @@ class AlignedDataset(BaseDataset):
         self.dataset_size = len(self.label_paths) 
       
     def __getitem__(self, index):        
+#        index = index + self.opt.start_index
         ### label maps        
         label_path = self.label_paths[index]              
         label = Image.open(label_path)        

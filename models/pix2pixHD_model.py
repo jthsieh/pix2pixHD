@@ -50,6 +50,7 @@ class Pix2PixHDModel(BaseModel):
 
         # load networks
         if not self.isTrain or opt.continue_train or opt.load_pretrain:
+            print("Loading network...")
             pretrained_path = '' if not self.isTrain else opt.load_pretrain
             self.load_network(self.netG, 'G', opt.which_epoch, pretrained_path)            
             if self.isTrain:
@@ -182,6 +183,7 @@ class Pix2PixHDModel(BaseModel):
         if self.use_features:       
             # sample clusters from precomputed features             
             feat_map = self.sample_features(inst_map)
+            feat_map = Variable(feat_map, volatile=True)
             input_concat = torch.cat((input_label, feat_map), dim=1)                        
         else:
             input_concat = input_label                
@@ -197,6 +199,7 @@ class Pix2PixHDModel(BaseModel):
         inst_np = inst.cpu().numpy().astype(int)                                      
         feat_map = torch.cuda.FloatTensor(1, self.opt.feat_num, inst.size()[2], inst.size()[3])                   
         for i in np.unique(inst_np):    
+            i = int(i)
             label = i if i < 1000 else i//1000
             if label in features_clustered:
                 feat = features_clustered[label]
